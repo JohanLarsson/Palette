@@ -36,7 +36,9 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid Width="400" Height="400">
+            <Grid Width="400"
+                  Height="400"
+                  Margin="4">
                 <Ellipse Fill="White" Stretch="Fill">
                     <Ellipse.Effect>
                         <effects:HsvWheelEffect />
@@ -73,9 +75,23 @@
 
             <DataGrid Grid.Row="1"
                       AutoGenerateColumns="False"
+                      Background="Transparent"
+                      BorderBrush="{x:Null}"
+                      BorderThickness="0"
+                      CanUserAddRows="False"
+                      GridLinesVisibility="None"
+                      HeadersVisibility="Column"
+                      HorizontalGridLinesBrush="{x:Null}"
                       ItemsSource="{Binding Palette.Colours}"
+                      RowBackground="Transparent"
                       SelectionMode="Extended"
                       SelectionUnit="Cell">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="Padding" Value="3,0" />
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                     <DataGridTemplateColumn Header="Sample" SortMemberPath="ColuorInfo.Hsv.Value">
