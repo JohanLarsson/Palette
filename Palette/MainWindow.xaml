@@ -6,49 +6,69 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:palette="clr-namespace:Palette"
         Title="MainWindow"
-        Width="525"
-        Height="350"
+        SizeToContent="WidthAndHeight"
         mc:Ignorable="d">
-    <Window.DataContext>
-        <palette:ViewModel />
-    </Window.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Ellipse Width="400"
-                 Height="400"
-                 Fill="White">
-            <Ellipse.Effect>
-                <effects:HsvWheelEffect InnerRadius="0.4" InnerSaturation="0.3" />
-            </Ellipse.Effect>
-        </Ellipse>
+    <Window.CommandBindings>
+        <CommandBinding CanExecute="OnCanSave"
+                        Command="Save"
+                        Executed="OnSave" />
+        <CommandBinding CanExecute="OnCanSaveAs"
+                        Command="SaveAs"
+                        Executed="OnSaveAs" />
+        <CommandBinding Command="Open" Executed="OnOpen" />
+    </Window.CommandBindings>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Command="New" Header="_New" />
+                <MenuItem Command="Open" Header="_Open" />
+                <MenuItem Command="Save" Header="_Save" />
+                <MenuItem Command="SaveAs" Header="_SaveAs" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+        </Menu>
 
-        <DataGrid Grid.Row="1"
-                  AutoGenerateColumns="False"
-                  ItemsSource="{Binding Colours}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                <DataGridTemplateColumn Header="Sample" SortMemberPath="ColuorInfo.Hsv.Value">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="{x:Type palette:ColuorInfo}">
-                            <Rectangle Fill="{Binding Brush}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Ellipse Width="400"
+                     Height="400"
+                     Fill="White">
+                <Ellipse.Effect>
+                    <effects:HsvWheelEffect InnerRadius="0.4" InnerSaturation="0.3" />
+                </Ellipse.Effect>
+            </Ellipse>
 
-                <DataGridTextColumn Binding="{Binding Hue, StringFormat='F1'}" Header="Hue" />
-                <DataGridTextColumn Binding="{Binding Saturation, StringFormat='F1'}" Header="Saturation" />
-                <DataGridTextColumn Binding="{Binding Value, StringFormat='F1'}" Header="Value" />
+            <DataGrid Grid.Row="1"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding Palette.Colours}"
+                      SelectionMode="Extended"
+                      SelectionUnit="Cell">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                    <DataGridTemplateColumn Header="Sample" SortMemberPath="ColuorInfo.Hsv.Value">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate DataType="{x:Type palette:ColuorInfo}">
+                                <Rectangle Fill="{Binding Brush}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                <DataGridTextColumn Binding="{Binding R}" Header="R" />
-                <DataGridTextColumn Binding="{Binding G}" Header="G" />
-                <DataGridTextColumn Binding="{Binding B}" Header="B" />
+                    <DataGridTextColumn Binding="{Binding Hue, StringFormat='F1'}" Header="Hue" />
+                    <DataGridTextColumn Binding="{Binding Saturation, StringFormat='F1'}" Header="Saturation" />
+                    <DataGridTextColumn Binding="{Binding Value, StringFormat='F1'}" Header="Value" />
 
-                <DataGridTextColumn Binding="{Binding Hex}" Header="Hex" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+                    <DataGridTextColumn Binding="{Binding R}" Header="R" />
+                    <DataGridTextColumn Binding="{Binding G}" Header="G" />
+                    <DataGridTextColumn Binding="{Binding B}" Header="B" />
+
+                    <DataGridTextColumn Binding="{Binding Hex}" Header="Hex" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DockPanel>
 </Window>

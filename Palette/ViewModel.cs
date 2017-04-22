@@ -1,25 +1,63 @@
 ﻿namespace Palette
 {
-    using System.Collections.ObjectModel;
-    using System.Windows.Media;
+    using System.ComponentModel;
+    using System.IO;
+    using System.Runtime.CompilerServices;
 
-    public class ViewModel
+    public class ViewModel : INotifyPropertyChanged
     {
-        public ViewModel()
+        private readonly Repository repository = new Repository();
+        private PaletteInfo palette = new PaletteInfo();
+
+        ////public ViewModel()
+        ////{
+        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Red", Brush = Brushes.OrangeRed });
+        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Blue", Brush = Brushes.DodgerBlue });
+        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Green", Brush = Brushes.LimeGreen });
+        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "DisabledGreen", Brush = new SolidColorBrush(Color.FromRgb(175, 212, 161)) });
+        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Order1", Brush = Brushes.YellowGreen });
+        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Order2", Brush = Brushes.MediumPurple });
+        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Order3", Brush = Brushes.LightBlue });
+        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Order4", Brush = Brushes.Coral });
+        ////}
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public PaletteInfo Palette
         {
-            this.Colours = new ObservableCollection<ColuorInfo>
+            get => this.palette;
+            set
             {
-                new ColuorInfo { Name = "Red", Brush = Brushes.OrangeRed },
-                new ColuorInfo { Name = "Blue", Brush = Brushes.DodgerBlue },
-                new ColuorInfo { Name = "Green", Brush = Brushes.LimeGreen },
-                new ColuorInfo { Name = "DisabledGreen", Brush = new SolidColorBrush(Color.FromRgb(175, 212, 161)) },
-                new ColuorInfo { Name = "Order1", Brush = Brushes.YellowGreen },
-                new ColuorInfo { Name = "Order2", Brush = Brushes.MediumPurple },
-                new ColuorInfo { Name = "Order3", Brush = Brushes.LightBlue },
-                new ColuorInfo { Name = "Order4", Brush = Brushes.Coral },
-            };
+                if (ReferenceEquals(value, this.palette))
+                {
+                    return;
+                }
+
+                this.palette = value;
+                this.OnPropertyChanged();
+            }
         }
 
-        public ObservableCollection<ColuorInfo> Colours { get; } = new ObservableCollection<ColuorInfo>();
+        public bool CanSave(FileInfo file)
+        {
+            return file != null &&
+                   this.palette != null &&
+                   this.repository.CanSave(this.palette, file);
+        }
+
+        public void Save(FileInfo file)
+        {
+            this.repository.Save(this.Palette, file);
+        }
+
+        public void Read(FileInfo file)
+        {
+            this.Palette = this.repository.Read(file);
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

@@ -1,6 +1,10 @@
+redirects: on
 source https://www.nuget.org/api/v2
 framework: net461
 nuget Gu.Wpf.Geometry
+nuget Gu.Persist.Git
+nuget Gu.Persist.NewtonsoftJson
+nuget Ookii.Dialogs
 
 group Analyzers
   source http://www.nuget.org/api/v2/
