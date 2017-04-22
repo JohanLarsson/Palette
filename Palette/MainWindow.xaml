@@ -29,8 +29,6 @@
                 <MenuItem Command="Open" Header="_Open" />
                 <MenuItem Command="Save" Header="_Save" />
                 <MenuItem Command="SaveAs" Header="_SaveAs" />
-                <Separator />
-                <MenuItem Header="_Exit" />
             </MenuItem>
         </Menu>
 

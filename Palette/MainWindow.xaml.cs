@@ -1,5 +1,6 @@
 ﻿namespace Palette
 {
+    using System;
     using System.IO;
     using System.Linq;
     using System.Windows;
@@ -9,7 +10,7 @@
     {
         private readonly ViewModel viewModel = new ViewModel();
         private FileInfo file;
-        private static readonly string Filter = "Palettes (*.palette)|*.palette|All files (*.*)|*.*";
+        private static readonly string Filter = "Palettes (*.palette)|*.palette|ResourceDictionary (*.xaml)|*.xaml|All files (*.*)|*.*";
 
         public MainWindow()
         {
@@ -68,9 +69,13 @@
                 return;
             }
 
-            this.file = new FileInfo(dialog.FileName);
+            var fileInfo = new FileInfo(dialog.FileName);
+            if (this.file == null)
+            {
+                this.file = fileInfo;
+            }
 
-            this.viewModel.Save(this.file);
+            this.viewModel.Save(fileInfo);
             e.Handled = true;
         }
 
@@ -84,6 +89,11 @@
             if (dialog.ShowDialog(this) == true)
             {
                 this.file = new FileInfo(dialog.FileName);
+                if (string.Equals(this.file.Extension, ".xaml"))
+                {
+                    throw new NotSupportedException("Reading xaml files is not yet supported");
+                }
+
                 this.viewModel.Read(this.file);
             }
         }

@@ -1,5 +1,6 @@
 ﻿namespace Palette
 {
+    using System;
     using System.ComponentModel;
     using System.IO;
     using System.Runtime.CompilerServices;
@@ -8,18 +9,6 @@
     {
         private readonly Repository repository = new Repository();
         private PaletteInfo palette = new PaletteInfo();
-
-        ////public ViewModel()
-        ////{
-        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Red", Brush = Brushes.OrangeRed });
-        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Blue", Brush = Brushes.DodgerBlue });
-        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Green", Brush = Brushes.LimeGreen });
-        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "DisabledGreen", Brush = new SolidColorBrush(Color.FromRgb(175, 212, 161)) });
-        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Order1", Brush = Brushes.YellowGreen });
-        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Order2", Brush = Brushes.MediumPurple });
-        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Order3", Brush = Brushes.LightBlue });
-        ////    this.Palette.Colours.Add(new ColuorInfo { Name = "Order4", Brush = Brushes.Coral });
-        ////}
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -47,6 +36,29 @@
 
         public void Save(FileInfo file)
         {
+            if (string.Equals(file.Extension , ".xaml", StringComparison.OrdinalIgnoreCase))
+            {
+                using (var writer = new StreamWriter(File.OpenWrite(file.FullName)))
+                {
+                    writer.WriteLine("<ResourceDictionary xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" ");
+                    writer.WriteLine("                    xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">");
+                    foreach (var colour in this.palette.Colours)
+                    {
+                        writer.WriteLine($"    <Color x:Key=\"{colour.Name}\">{colour.Hex}</Color>");
+                    }
+
+                    writer.WriteLine();
+                    foreach (var colour in this.palette.Colours)
+                    {
+                        writer.WriteLine($"    <SolidColorBrush x:Key=\"{colour.Name}Brush\" Color=\"{{StaticResource {colour.Name}}}\" />");
+                    }
+
+                    writer.WriteLine("</ResourceDictionary>");
+                }
+
+                return;
+            }
+
             this.repository.Save(this.Palette, file);
         }
 
