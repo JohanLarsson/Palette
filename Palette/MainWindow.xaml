@@ -78,7 +78,6 @@
                       Background="Transparent"
                       BorderBrush="{x:Null}"
                       BorderThickness="0"
-                      CanUserAddRows="False"
                       GridLinesVisibility="None"
                       HeadersVisibility="Column"
                       HorizontalGridLinesBrush="{x:Null}"

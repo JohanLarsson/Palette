@@ -7,7 +7,7 @@
     public class ColuorInfo : INotifyPropertyChanged
     {
         private string name;
-        private SolidColorBrush brush;
+        private SolidColorBrush brush = Brushes.Transparent;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
