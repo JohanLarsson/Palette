@@ -1,6 +1,7 @@
 ﻿namespace Palette
 {
     using System.IO;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Input;
 
@@ -14,6 +15,18 @@
         {
             this.InitializeComponent();
             this.DataContext = this.viewModel;
+        }
+
+        private void OnCanNew(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = this.viewModel.Palette?.Colours?.Any() == true;
+            e.Handled = true;
+        }
+
+        private void OnNew(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.viewModel.Palette = new PaletteInfo();
+            e.Handled = true;
         }
 
         private void OnCanSave(object sender, CanExecuteRoutedEventArgs e)

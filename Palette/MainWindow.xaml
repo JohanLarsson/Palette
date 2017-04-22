@@ -10,6 +10,10 @@
         SizeToContent="WidthAndHeight"
         mc:Ignorable="d">
     <Window.CommandBindings>
+        <CommandBinding CanExecute="OnCanNew"
+                        Command="New"
+                        Executed="OnNew" />
+
         <CommandBinding CanExecute="OnCanSave"
                         Command="Save"
                         Executed="OnSave" />
