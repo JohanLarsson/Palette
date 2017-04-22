@@ -28,18 +28,23 @@ namespace Palette
             this.repository.Save(file, palette);
         }
 
+        internal static JsonSerializerSettings CreateJsonSettings()
+        {
+            return new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                Converters =
+                {
+                    ColourInfoConverter.Default
+                }
+            };
+        }
+
         private static DataRepositorySettings CreateDefaultSettings()
         {
             return new DataRepositorySettings(
                 directory: Directory.FullName,
-                jsonSerializerSettings: new JsonSerializerSettings
-                {
-                    Formatting = Formatting.Indented,
-                    Converters =
-                    {
-                        ColourInfoConverter.Default
-                    }
-                },
+                jsonSerializerSettings: CreateJsonSettings(),
                 isTrackingDirty: true,
                 saveNullDeletesFile: true,
                 backupSettings: null,

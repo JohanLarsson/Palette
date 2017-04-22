@@ -4,11 +4,23 @@
     using System.ComponentModel;
     using System.IO;
     using System.Runtime.CompilerServices;
+    using Palette.Properties;
 
     public class ViewModel : INotifyPropertyChanged
     {
-        private readonly Repository repository = new Repository();
+        // Lazy for designtime to work.
+        private readonly Lazy<Repository> repository = new Lazy<Repository>(() => new Repository());
+
         private PaletteInfo palette = new PaletteInfo();
+
+        public ViewModel()
+        {
+#if DEBUG
+            this.palette = Newtonsoft.Json.JsonConvert.DeserializeObject<PaletteInfo>(
+                Resources.SamplePalette,
+                Repository.CreateJsonSettings());
+#endif
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -31,12 +43,12 @@
         {
             return file != null &&
                    this.palette != null &&
-                   this.repository.CanSave(this.palette, file);
+                   this.repository.Value.CanSave(this.palette, file);
         }
 
         public void Save(FileInfo file)
         {
-            if (string.Equals(file.Extension , ".xaml", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(file.Extension, ".xaml", StringComparison.OrdinalIgnoreCase))
             {
                 using (var writer = new StreamWriter(File.OpenWrite(file.FullName)))
                 {
@@ -59,12 +71,12 @@
                 return;
             }
 
-            this.repository.Save(this.Palette, file);
+            this.repository.Value.Save(this.Palette, file);
         }
 
         public void Read(FileInfo file)
         {
-            this.Palette = this.repository.Read(file);
+            this.Palette = this.repository.Value.Read(file);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
