@@ -47,33 +47,42 @@
                         <effects:HsvWheelEffect />
                     </Ellipse.Effect>
                 </Ellipse>
-                <ItemsControl HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              Background="{x:Null}"
-                              ItemsSource="{Binding Palette.Colours}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Grid />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type palette:ColuorInfo}">
-                            <Ellipse Width="20"
-                                     Height="20"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Center"
-                                     Fill="{Binding Brush}"
-                                     RenderTransformOrigin="0.5,0.5">
-                                <Ellipse.RenderTransform>
+                <ListBox HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         Background="{x:Null}"
+                         ItemsSource="{Binding Palette.Colours}"
+                         SelectedItem="{Binding SelectedColour}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
                                     <TransformGroup>
                                         <TranslateTransform X="{Binding Saturation, Converter={palette:SaturationToRadiusConverter Radius=200}}" />
                                         <RotateTransform Angle="{Binding Hue, Converter={x:Static palette:NegateConverter.Default}}" />
                                     </TransformGroup>
-                                </Ellipse.RenderTransform>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type palette:ColuorInfo}">
+                            <Ellipse Width="20"
+                                     Height="20"
+                                     Fill="{Binding Brush}">
                             </Ellipse>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
 
             <DataGrid Grid.Row="1"
@@ -86,8 +95,10 @@
                       HorizontalGridLinesBrush="{x:Null}"
                       ItemsSource="{Binding Palette.Colours}"
                       RowBackground="Transparent"
+                      Foreground="Black"
+                      SelectedItem="{Binding SelectedColour}"
                       SelectionMode="Extended"
-                      SelectionUnit="Cell">
+                      SelectionUnit="FullRow">
                 <DataGrid.ColumnHeaderStyle>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="Background" Value="Transparent" />

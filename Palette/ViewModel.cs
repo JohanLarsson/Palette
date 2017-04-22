@@ -12,6 +12,7 @@
         private readonly Lazy<Repository> repository = new Lazy<Repository>(() => new Repository());
 
         private PaletteInfo palette = new PaletteInfo();
+        private ColuorInfo selectedColour;
 
         public ViewModel()
         {
@@ -35,6 +36,22 @@
                 }
 
                 this.palette = value;
+                this.SelectedColour = null;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public ColuorInfo SelectedColour
+        {
+            get => this.selectedColour;
+            set
+            {
+                if (ReferenceEquals(value, this.selectedColour))
+                {
+                    return;
+                }
+
+                this.selectedColour = value;
                 this.OnPropertyChanged();
             }
         }
