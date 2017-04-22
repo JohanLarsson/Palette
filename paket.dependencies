@@ -1,0 +1,10 @@
+source https://www.nuget.org/api/v2
+framework: net461
+nuget Gu.Wpf.Geometry
+
+group Analyzers
+  source http://www.nuget.org/api/v2/
+  nuget StyleCop.Analyzers
+  nuget WpfAnalyzers
+  nuget Gu.Analyzers
+  nuget JetBrains.Annotations
