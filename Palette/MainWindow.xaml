@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:palette="clr-namespace:Palette"
         Title="MainWindow"
+        d:DataContext="{d:DesignInstance palette:ViewModel}"
         SizeToContent="WidthAndHeight"
         mc:Ignorable="d">
     <Window.CommandBindings>
@@ -35,13 +36,40 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Ellipse Width="400"
-                     Height="400"
-                     Fill="White">
-                <Ellipse.Effect>
-                    <effects:HsvWheelEffect InnerRadius="0.4" InnerSaturation="0.3" />
-                </Ellipse.Effect>
-            </Ellipse>
+            <Grid Width="400" Height="400">
+                <Ellipse Fill="White" Stretch="Fill">
+                    <Ellipse.Effect>
+                        <effects:HsvWheelEffect />
+                    </Ellipse.Effect>
+                </Ellipse>
+                <ItemsControl HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Background="{x:Null}"
+                              ItemsSource="{Binding Palette.Colours}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type palette:ColuorInfo}">
+                            <Ellipse Width="20"
+                                     Height="20"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     Fill="{Binding Brush}"
+                                     RenderTransformOrigin="0.5,0.5">
+                                <Ellipse.RenderTransform>
+                                    <TransformGroup>
+                                        <TranslateTransform X="{Binding Saturation, Converter={palette:SaturationToRadiusConverter Radius=200}}" />
+                                        <RotateTransform Angle="{Binding Hue, Converter={x:Static palette:NegateConverter.Default}}" />
+                                    </TransformGroup>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
 
             <DataGrid Grid.Row="1"
                       AutoGenerateColumns="False"

@@ -55,8 +55,10 @@
     </ApplicationDefinition>
     <Compile Include="ColuorInfo.cs" />
     <Compile Include="Hsv.cs" />
+    <Compile Include="NegateConverter.cs" />
     <Compile Include="PaletteInfo.cs" />
     <Compile Include="Repository.cs" />
+    <Compile Include="SaturationToRadiusConverter.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
