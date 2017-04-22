@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:palette="clr-namespace:Palette"
         Title="MainWindow"
-        d:DataContext="{d:DesignInstance palette:ViewModel}"
+        d:DataContext="{d:DesignInstance palette:ViewModel,
+                                         d:IsDesignTimeCreatable=True}"
         SizeToContent="WidthAndHeight"
         mc:Ignorable="d">
     <Window.CommandBindings>

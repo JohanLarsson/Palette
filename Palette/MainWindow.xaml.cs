@@ -8,9 +8,11 @@
 
     public partial class MainWindow : Window
     {
-        private readonly ViewModel viewModel = new ViewModel();
-        private FileInfo file;
         private static readonly string Filter = "Palettes (*.palette)|*.palette|ResourceDictionary (*.xaml)|*.xaml|All files (*.*)|*.*";
+
+        private readonly ViewModel viewModel = new ViewModel();
+
+        private FileInfo file;
 
         public MainWindow()
         {
