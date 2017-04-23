@@ -1,4 +1,5 @@
-﻿namespace Palette
+﻿// ReSharper disable PossibleNullReferenceException
+namespace Palette
 {
     using System;
     using System.Globalization;
@@ -10,7 +11,7 @@
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return -1 * (double) value;
+            return -1 * (double)value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

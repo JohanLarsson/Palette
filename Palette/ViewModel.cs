@@ -11,7 +11,7 @@
         // Lazy for designtime to work.
         private readonly Lazy<Repository> repository = new Lazy<Repository>(() => new Repository());
 
-        private PaletteInfo palette = new PaletteInfo();
+        private PaletteInfo palette;
         private ColuorInfo selectedColour;
 
         public ViewModel()
@@ -20,6 +20,8 @@
             this.palette = Newtonsoft.Json.JsonConvert.DeserializeObject<PaletteInfo>(
                 Resources.SamplePalette,
                 Repository.CreateJsonSettings());
+#else
+            this.palette = new PaletteInfo();
 #endif
         }
 
