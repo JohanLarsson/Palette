@@ -21,129 +21,140 @@
         <CommandBinding CanExecute="OnCanSaveAs"
                         Command="SaveAs"
                         Executed="OnSaveAs" />
-        <CommandBinding Command="Open"
-                        Executed="OnOpen" />
+        <CommandBinding Command="Open" Executed="OnOpen" />
     </Window.CommandBindings>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Command="New"
-                          Header="_New" />
-                <MenuItem Command="Open"
-                          Header="_Open" />
-                <MenuItem Command="Save"
-                          Header="_Save" />
-                <MenuItem Command="SaveAs"
-                          Header="_SaveAs" />
+                <MenuItem Command="New" Header="_New" />
+                <MenuItem Command="Open" Header="_Open" />
+                <MenuItem Command="Save" Header="_Save" />
+                <MenuItem Command="SaveAs" Header="_SaveAs" />
             </MenuItem>
         </Menu>
+        <TabControl>
+            <TabItem Header="Edit">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid Width="400"
+                          Height="400"
+                          Margin="4">
+                        <Ellipse Fill="White" Stretch="Fill">
+                            <Ellipse.Effect>
+                                <effects:HsvWheelEffect />
+                            </Ellipse.Effect>
+                        </Ellipse>
+                        <ListBox HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
+                                 Background="{x:Null}"
+                                 BorderBrush="{x:Null}"
+                                 BorderThickness="0"
+                                 ItemsSource="{Binding Palette.Colours}"
+                                 SelectedItem="{Binding SelectedColour}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="Margin" Value="0" />
+                                    <Setter Property="RenderTransform">
+                                        <Setter.Value>
+                                            <TransformGroup>
+                                                <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                                                <TranslateTransform X="{Binding Saturation, Converter={palette:SaturationToRadiusConverter Radius=200}}" />
+                                                <RotateTransform Angle="{Binding Hue, Converter={x:Static palette:NegateConverter.Default}}" />
+                                                <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                                            </TransformGroup>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Grid />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type palette:ColuorInfo}">
+                                    <Ellipse Width="20"
+                                             Height="20"
+                                             Fill="{Binding Brush}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid Width="400"
-                  Height="400"
-                  Margin="4">
-                <Ellipse Fill="White"
-                         Stretch="Fill">
-                    <Ellipse.Effect>
-                        <effects:HsvWheelEffect />
-                    </Ellipse.Effect>
-                </Ellipse>
-                <ListBox HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         Background="{x:Null}"
-                         BorderBrush="{x:Null}"
-                         BorderThickness="0"
-                         ItemsSource="{Binding Palette.Colours}"
-                         SelectedItem="{Binding SelectedColour}">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
-                            <Setter Property="Padding" Value="0" />
-                            <Setter Property="Margin" Value="0" />
-                            <Setter Property="RenderTransform">
-                                <Setter.Value>
-                                    <TransformGroup>
-                                        <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
-                                        <TranslateTransform X="{Binding Saturation, Converter={palette:SaturationToRadiusConverter Radius=200}}" />
-                                        <RotateTransform Angle="{Binding Hue, Converter={x:Static palette:NegateConverter.Default}}" />
-                                        <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
-                                    </TransformGroup>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Grid />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
+                    <DataGrid Grid.Row="1"
+                              AutoGenerateColumns="False"
+                              Background="Transparent"
+                              BorderBrush="{x:Null}"
+                              BorderThickness="0"
+                              Foreground="Black"
+                              GridLinesVisibility="None"
+                              HeadersVisibility="Column"
+                              HorizontalGridLinesBrush="{x:Null}"
+                              ItemsSource="{Binding Palette.Colours}"
+                              RowBackground="Transparent"
+                              SelectedItem="{Binding SelectedColour}"
+                              SelectionMode="Extended"
+                              SelectionUnit="FullRow">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Padding" Value="3,0" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                            <DataGridTemplateColumn Header="Sample" SortMemberPath="ColuorInfo.Hsv.Value">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate DataType="{x:Type palette:ColuorInfo}">
+                                        <Rectangle Fill="{Binding Brush}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Binding="{Binding Hue, StringFormat='F1'}" Header="Hue" />
+                            <DataGridTextColumn Binding="{Binding Saturation, StringFormat='F1'}" Header="Saturation" />
+                            <DataGridTextColumn Binding="{Binding Value, StringFormat='F1'}" Header="Value" />
+
+                            <DataGridTextColumn Binding="{Binding R}" Header="R" />
+                            <DataGridTextColumn Binding="{Binding G}" Header="G" />
+                            <DataGridTextColumn Binding="{Binding B}" Header="B" />
+
+                            <DataGridTextColumn Binding="{Binding Hex}" Header="Hex" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Preview">
+                <ItemsControl ItemsSource="{Binding Palette.Colours}">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type palette:ColuorInfo}">
-                            <Ellipse Width="20"
-                                     Height="20"
-                                     Fill="{Binding Brush}" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0"
+                                           VerticalAlignment="Center"
+                                           Text="{Binding Name}" />
+                                <Ellipse Grid.Column="2"
+                                         Width="50"
+                                         Height="50"
+                                         Fill="{Binding Brush}" />
+                            </Grid>
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Grid>
-
-            <DataGrid Grid.Row="1"
-                      AutoGenerateColumns="False"
-                      Background="Transparent"
-                      BorderBrush="{x:Null}"
-                      BorderThickness="0"
-                      Foreground="Black"
-                      GridLinesVisibility="None"
-                      HeadersVisibility="Column"
-                      HorizontalGridLinesBrush="{x:Null}"
-                      ItemsSource="{Binding Palette.Colours}"
-                      RowBackground="Transparent"
-                      SelectedItem="{Binding SelectedColour}"
-                      SelectionMode="Extended"
-                      SelectionUnit="FullRow">
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                        <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="Padding" Value="3,0" />
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Name}"
-                                        Header="Name" />
-                    <DataGridTemplateColumn Header="Sample"
-                                            SortMemberPath="ColuorInfo.Hsv.Value">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate DataType="{x:Type palette:ColuorInfo}">
-                                <Rectangle Fill="{Binding Brush}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
-                    <DataGridTextColumn Binding="{Binding Hue, StringFormat='F1'}"
-                                        Header="Hue" />
-                    <DataGridTextColumn Binding="{Binding Saturation, StringFormat='F1'}"
-                                        Header="Saturation" />
-                    <DataGridTextColumn Binding="{Binding Value, StringFormat='F1'}"
-                                        Header="Value" />
-
-                    <DataGridTextColumn Binding="{Binding R}"
-                                        Header="R" />
-                    <DataGridTextColumn Binding="{Binding G}"
-                                        Header="G" />
-                    <DataGridTextColumn Binding="{Binding B}"
-                                        Header="B" />
-
-                    <DataGridTextColumn Binding="{Binding Hex}"
-                                        Header="Hex" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </TabItem>
+        </TabControl>
     </DockPanel>
 </Window>
