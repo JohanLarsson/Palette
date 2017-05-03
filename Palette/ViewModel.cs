@@ -1,4 +1,9 @@
-﻿namespace Palette
+﻿using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Text;
+using Gu.Reactive;
+
+namespace Palette
 {
     using System;
     using System.ComponentModel;
@@ -6,13 +11,16 @@
     using System.Runtime.CompilerServices;
     using Palette.Properties;
 
-    public class ViewModel : INotifyPropertyChanged
+    public sealed class ViewModel : INotifyPropertyChanged, IDisposable
     {
         // Lazy for designtime to work.
         private readonly Lazy<Repository> repository = new Lazy<Repository>(() => new Repository());
+        private readonly StringBuilder xamlBuilder = new StringBuilder();
+        private readonly SerialDisposable disposable = new SerialDisposable();
 
         private PaletteInfo palette;
         private ColuorInfo selectedColour;
+        private bool disposed;
 
         public ViewModel()
         {
@@ -38,6 +46,17 @@
                 }
 
                 this.palette = value;
+                if (value == null)
+                {
+                    this.disposable.Disposable = null;
+                }
+                else
+                {
+                    this.disposable.Disposable = value.Colours.ObserveItemPropertyChangedSlim(x => x.Brush, signalInitial: false)
+                        .Subscribe(_ => this.OnPropertyChanged(nameof(this.Xaml)));
+                }
+
+                this.OnPropertyChanged(nameof(this.Xaml));
                 this.SelectedColour = null;
                 this.OnPropertyChanged();
             }
@@ -58,6 +77,19 @@
             }
         }
 
+        public string Xaml
+        {
+            get
+            {
+                this.xamlBuilder.Clear();
+                using (var writer = new StringWriter(this.xamlBuilder))
+                {
+                    this.WriteXaml(writer);
+                    return this.xamlBuilder.ToString();
+                }
+            }
+        }
+
         public bool CanSave(FileInfo file)
         {
             return file != null &&
@@ -71,20 +103,7 @@
             {
                 using (var writer = new StreamWriter(File.OpenWrite(file.FullName)))
                 {
-                    writer.WriteLine("<ResourceDictionary xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" ");
-                    writer.WriteLine("                    xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">");
-                    foreach (var colour in this.palette.Colours)
-                    {
-                        writer.WriteLine($"    <Color x:Key=\"{colour.Name}\">{colour.Hex}</Color>");
-                    }
-
-                    writer.WriteLine();
-                    foreach (var colour in this.palette.Colours)
-                    {
-                        writer.WriteLine($"    <SolidColorBrush x:Key=\"{colour.Name}Brush\" Color=\"{{StaticResource {colour.Name}}}\" />");
-                    }
-
-                    writer.WriteLine("</ResourceDictionary>");
+                    this.WriteXaml(writer);
                 }
 
                 return;
@@ -93,14 +112,52 @@
             this.repository.Value.Save(this.Palette, file);
         }
 
+        private void WriteXaml(TextWriter writer)
+        {
+            writer.WriteLine("<ResourceDictionary xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" ");
+            writer.WriteLine("                    xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">");
+            foreach (var colour in this.palette.Colours)
+            {
+                writer.WriteLine($"    <Color x:Key=\"{colour.Name}\">{colour.Hex}</Color>");
+            }
+
+            writer.WriteLine();
+            foreach (var colour in this.palette.Colours)
+            {
+                writer.WriteLine(
+                    $"    <SolidColorBrush x:Key=\"{colour.Name}Brush\" Color=\"{{StaticResource {colour.Name}}}\" />");
+            }
+
+            writer.WriteLine("</ResourceDictionary>");
+        }
+
         public void Read(FileInfo file)
         {
             this.Palette = this.repository.Value.Read(file);
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.disposable.Dispose();
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
         }
     }
 }

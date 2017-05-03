@@ -9,17 +9,36 @@ NUGET
     Gu.Persist.NewtonsoftJson (0.2.0.3)
       Gu.Persist.Core (>= 0.2.0.3)
       Newtonsoft.Json
+    Gu.Reactive (3.3.1)
+      System.Reactive.PlatformServices (>= 3.1.1)
     Gu.Wpf.Geometry (1.1.0.1)
+    Gu.Wpf.Reactive (3.3.1)
+      Gu.Reactive (>= 3.3.1)
+      Gu.Wpf.ToolTips
+      System.Reactive
+    Gu.Wpf.ToolTips (0.2.0.1)
     LibGit2Sharp (0.23.1)
       LibGit2Sharp.NativeBinaries (1.0.164)
     LibGit2Sharp.NativeBinaries (1.0.164)
     Newtonsoft.Json (10.0.2)
     Ookii.Dialogs (1.0)
+    System.Reactive (3.1.1)
+      System.Reactive.PlatformServices (>= 3.1.1)
+      System.Reactive.Windows.Threading (>= 3.1.1)
+    System.Reactive.Core (3.1.1)
+      System.Reactive.Interfaces (>= 3.1.1)
+    System.Reactive.Interfaces (3.1.1)
+    System.Reactive.Linq (3.1.1)
+      System.Reactive.Core (>= 3.1.1)
+    System.Reactive.PlatformServices (3.1.1)
+      System.Reactive.Linq (>= 3.1.1)
+    System.Reactive.Windows.Threading (3.1.1)
+      System.Reactive.Core (>= 3.1.1)
 
 GROUP Analyzers
 NUGET
   remote: http://www.nuget.org/api/v2
-    Gu.Analyzers (0.1.11.23-dev)
+    Gu.Analyzers (0.1.11.24-dev)
     JetBrains.Annotations (10.4)
       System.Runtime (>= 4.1) - framework: >= netstandard10
     Microsoft.NETCore.Platforms (1.1) - framework: netstandard10, netstandard12, netstandard13, >= netstandard15

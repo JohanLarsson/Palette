@@ -1,6 +1,7 @@
 Gu.Wpf.Geometry
 Gu.Persist.Git
 Gu.Persist.NewtonsoftJson
+Gu.Wpf.Reactive
 Ookii.Dialogs
 
 group Analyzers

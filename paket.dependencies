@@ -4,6 +4,7 @@ framework: net461
 nuget Gu.Wpf.Geometry
 nuget Gu.Persist.Git
 nuget Gu.Persist.NewtonsoftJson
+nuget Gu.Wpf.Reactive
 nuget Ookii.Dialogs
 
 group Analyzers
