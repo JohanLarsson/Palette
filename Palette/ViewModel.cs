@@ -1,14 +1,12 @@
-﻿using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using System.Text;
-using Gu.Reactive;
-
-namespace Palette
+﻿namespace Palette
 {
     using System;
     using System.ComponentModel;
     using System.IO;
+    using System.Reactive.Disposables;
     using System.Runtime.CompilerServices;
+    using System.Text;
+    using Gu.Reactive;
     using Palette.Properties;
 
     public sealed class ViewModel : INotifyPropertyChanged, IDisposable
