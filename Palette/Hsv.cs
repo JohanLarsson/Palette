@@ -24,7 +24,7 @@ public record struct Hsv(double Hue, double Saturation, double Value)
 
     public static Color ColorFromHSV(double hue, double saturation, double value)
     {
-        var hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+        var hi = (int)(Math.Floor(hue / 60)) % 6;
         var f = (hue / 60) - Math.Floor(hue / 60);
 
         value *= 255;
@@ -33,29 +33,14 @@ public record struct Hsv(double Hue, double Saturation, double Value)
         var q = (byte)(value * (1 - (f * saturation)));
         var t = (byte)(value * (1 - ((1 - f) * saturation)));
 
-        if (hi == 0)
+        return hi switch
         {
-            return Color.FromArgb(255, v, t, p);
-        }
-        else if (hi == 1)
-        {
-            return Color.FromArgb(255, q, v, p);
-        }
-        else if (hi == 2)
-        {
-            return Color.FromArgb(255, p, v, t);
-        }
-        else if (hi == 3)
-        {
-            return Color.FromArgb(255, p, q, v);
-        }
-        else if (hi == 4)
-        {
-            return Color.FromArgb(255, t, p, v);
-        }
-        else
-        {
-            return Color.FromArgb(255, v, p, q);
-        }
+            0 => Color.FromArgb(255, v, t, p),
+            1 => Color.FromArgb(255, q, v, p),
+            2 => Color.FromArgb(255, p, v, t),
+            3 => Color.FromArgb(255, p, q, v),
+            4 => Color.FromArgb(255, t, p, v),
+            _ => Color.FromArgb(255, v, p, q),
+        };
     }
 }
