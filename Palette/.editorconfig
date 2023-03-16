@@ -1,0 +1,69 @@
+﻿[*.cs]
+
+# Default severity for analyzer diagnostics with category 'StyleCop.CSharp.DocumentationRules'
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.DocumentationRules.severity = none
+# SA0001: XML comment analysis is disabled due to project configuration
+dotnet_diagnostic.SA0001.severity = none
+# SA1401: Fields should be private
+dotnet_diagnostic.SA1401.severity = none
+
+# CA1003: Use generic event handler instances
+dotnet_diagnostic.CA1003.severity = none
+# CA1030: Use events where appropriate
+dotnet_diagnostic.CA1030.severity = none
+# CA1031: Do not catch general exception types
+dotnet_diagnostic.CA1031.severity = none
+# CA1034: Nested types should not be visible
+dotnet_diagnostic.CA1034.severity = none
+# CA1051: Do not declare visible instance fields
+dotnet_diagnostic.CA1051.severity = none
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = none
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = none
+# CA1508: Avoid dead conditional code
+dotnet_diagnostic.CA1508.severity = none
+# CA1710: Identifiers should have correct suffix
+dotnet_diagnostic.CA1710.severity = none
+# CA1711: Identifiers should not have incorrect suffix
+dotnet_diagnostic.CA1711.severity = none
+# CA1716: Identifiers should not match keywords
+dotnet_diagnostic.CA1716.severity = none
+# CA1724: Type names should not match namespaces
+dotnet_diagnostic.CA1724.severity = none
+# CA1801: Review unused parameters
+dotnet_diagnostic.CA1801.severity = suggestion
+# CA1810: Initialize reference type static fields inline
+dotnet_diagnostic.CA1810.severity = none
+# CA1812: Avoid uninstantiated internal classes
+dotnet_diagnostic.CA1812.severity = none
+# CA2000: Dispose objects before losing scope
+dotnet_diagnostic.CA2000.severity = none
+# CA2225: Operator overloads have named alternates
+dotnet_diagnostic.CA2225.severity = none
+# CA2227: Collection properties should be read only
+dotnet_diagnostic.CA2227.severity = none
+# CA5394: Do not use insecure randomness
+dotnet_diagnostic.CA5394.severity = none
+
+# WPF0041: Set mutable dependency properties using SetCurrentValue
+dotnet_diagnostic.WPF0041.severity = suggestion
+# WPF0060: Backing member for DependencyProperty should have standard documentation text.
+dotnet_diagnostic.WPF0060.severity = none
+# WPF0061: Accessor method for attached property should have standard documentation text.
+dotnet_diagnostic.WPF0061.severity = none
+# WPF0062: Property changed callback should have standard documentation text.
+dotnet_diagnostic.WPF0062.severity = none
+# WPF0108: Backing member for RoutedEvent should have standard documentation text
+dotnet_diagnostic.WPF0108.severity = none
+
+# VSTHRD001: Avoid legacy thread switching APIs
+dotnet_diagnostic.VSTHRD001.severity = none
+# VSTHRD003: Avoid awaiting foreign Tasks
+dotnet_diagnostic.VSTHRD003.severity = none
+# VSTHRD100: Avoid async void methods
+dotnet_diagnostic.VSTHRD100.severity = none
+# VSTHRD101: Avoid unsupported async delegates
+dotnet_diagnostic.VSTHRD101.severity = none
+
+
