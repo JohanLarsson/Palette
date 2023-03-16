@@ -16,7 +16,7 @@ public sealed class ViewModel : INotifyPropertyChanged, IDisposable
     private readonly SerialDisposable disposable = new();
 
     private PaletteInfo palette;
-    private ColuorInfo selectedColour;
+    private ColuorInfo? selectedColour;
     private bool disposed;
 
     public ViewModel()
@@ -43,7 +43,7 @@ public sealed class ViewModel : INotifyPropertyChanged, IDisposable
 #endif
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public PaletteInfo Palette
     {
@@ -56,7 +56,7 @@ public sealed class ViewModel : INotifyPropertyChanged, IDisposable
             }
 
             this.palette = value;
-            if (value == null)
+            if (value is null)
             {
                 this.disposable.Disposable = null;
             }
@@ -72,7 +72,7 @@ public sealed class ViewModel : INotifyPropertyChanged, IDisposable
         }
     }
 
-    public ColuorInfo SelectedColour
+    public ColuorInfo? SelectedColour
     {
         get => this.selectedColour;
         set
@@ -98,7 +98,7 @@ public sealed class ViewModel : INotifyPropertyChanged, IDisposable
         }
     }
 
-    public bool CanSave(FileInfo file)
+    public bool CanSave(FileInfo? file)
     {
         return file != null &&
                this.palette != null;
@@ -115,6 +115,27 @@ public sealed class ViewModel : INotifyPropertyChanged, IDisposable
         }
 
         Repository.Save(this.Palette, file);
+    }
+
+    public void Read(FileInfo file)
+    {
+        this.Palette = Repository.Read(file);
+    }
+
+    public void Dispose()
+    {
+        if (this.disposed)
+        {
+            return;
+        }
+
+        this.disposed = true;
+        this.disposable.Dispose();
+    }
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     private void WriteXaml(TextWriter writer)
@@ -134,34 +155,5 @@ public sealed class ViewModel : INotifyPropertyChanged, IDisposable
         }
 
         writer.WriteLine("</ResourceDictionary>");
-    }
-
-    public void Read(FileInfo file)
-    {
-        this.Palette = Repository.Read(file);
-    }
-
-    public void Dispose()
-    {
-        if (this.disposed)
-        {
-            return;
-        }
-
-        this.disposed = true;
-        this.disposable.Dispose();
-    }
-
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    private void ThrowIfDisposed()
-    {
-        if (this.disposed)
-        {
-            throw new ObjectDisposedException(this.GetType().FullName);
-        }
     }
 }

@@ -9,11 +9,11 @@ using Microsoft.Win32;
 
 public partial class MainWindow : Window
 {
-    private static readonly string Filter = "Palettes (*.palette)|*.palette|ResourceDictionary (*.xaml)|*.xaml|All files (*.*)|*.*";
+    private const string Filter = "Palettes (*.palette)|*.palette|ResourceDictionary (*.xaml)|*.xaml|All files (*.*)|*.*";
 
-    private readonly ViewModel viewModel = new ViewModel();
+    private readonly ViewModel viewModel = new();
 
-    private FileInfo file;
+    private FileInfo? file;
 
     public MainWindow()
     {
@@ -41,7 +41,7 @@ public partial class MainWindow : Window
 
     private void OnSave(object sender, ExecutedRoutedEventArgs e)
     {
-        if (this.file == null)
+        if (this.file is null)
         {
             var dialog = new SaveFileDialog()
             {
@@ -72,13 +72,8 @@ public partial class MainWindow : Window
             return;
         }
 
-        var fileInfo = new FileInfo(dialog.FileName);
-        if (this.file == null)
-        {
-            this.file = fileInfo;
-        }
-
-        this.viewModel.Save(fileInfo);
+        this.file ??= new FileInfo(dialog.FileName);
+        this.viewModel.Save(this.file);
         e.Handled = true;
     }
 
@@ -92,7 +87,7 @@ public partial class MainWindow : Window
         if (dialog.ShowDialog(this) == true)
         {
             this.file = new FileInfo(dialog.FileName);
-            if (string.Equals(this.file.Extension, ".xaml"))
+            if (string.Equals(this.file.Extension, ".xaml", StringComparison.Ordinal))
             {
                 throw new NotSupportedException("Reading xaml files is not yet supported");
             }

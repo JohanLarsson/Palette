@@ -5,9 +5,10 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-public class NegateConverter : IValueConverter
+[ValueConversion(typeof(double), typeof(double))]
+public sealed class NegateConverter : IValueConverter
 {
-    public static readonly NegateConverter Default = new NegateConverter();
+    public static readonly NegateConverter Default = new();
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

@@ -6,6 +6,8 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
+[ValueConversion(typeof(double), typeof(double))]
+[MarkupExtensionReturnType(typeof(SaturationToRadiusConverter))]
 public class SaturationToRadiusConverter : MarkupExtension, IValueConverter
 {
     public double Radius { get; set; }

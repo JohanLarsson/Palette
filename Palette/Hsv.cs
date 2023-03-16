@@ -3,21 +3,8 @@
 using System;
 using System.Windows.Media;
 
-public struct Hsv
+public record struct Hsv(double Hue, double Saturation, double Value)
 {
-    public Hsv(double hue, double saturation, double value)
-    {
-        this.Hue = hue;
-        this.Saturation = saturation;
-        this.Value = value;
-    }
-
-    public double Hue { get; }
-
-    public double Saturation { get; }
-
-    public double Value { get; }
-
     public static Hsv ColorToHSV(Color color)
     {
         return ColorToHSV(System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B));
@@ -40,7 +27,7 @@ public struct Hsv
         var hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
         var f = (hue / 60) - Math.Floor(hue / 60);
 
-        value = value * 255;
+        value *= 255;
         var v = (byte)value;
         var p = (byte)(value * (1 - saturation));
         var q = (byte)(value * (1 - (f * saturation)));
