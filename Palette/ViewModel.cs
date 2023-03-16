@@ -6,7 +6,9 @@
     using System.Reactive.Disposables;
     using System.Runtime.CompilerServices;
     using System.Text;
+
     using Gu.Reactive;
+
     using Palette.Properties;
 
     public sealed class ViewModel : INotifyPropertyChanged, IDisposable
@@ -23,9 +25,22 @@
         public ViewModel()
         {
 #if DEBUG
-            this.palette = Newtonsoft.Json.JsonConvert.DeserializeObject<PaletteInfo>(
-                Resources.SamplePalette,
-                Repository.CreateJsonSettings());
+            this.palette = new PaletteInfo()
+            {
+                Colours =
+                {
+                    new ColuorInfo { Name = "Red", Hex = "#FFE52D2D" },
+                    new ColuorInfo { Name = "Blue", Hex = "#FF2D2DE5" },
+                    new ColuorInfo { Name = "Green", Hex = "#FF2DE52D" },
+                    new ColuorInfo { Name = "GreenDisabled", Hex = "#FF59B259" },
+                    new ColuorInfo { Name = "Order1", Hex = "#FFCDCD32" },
+                    new ColuorInfo { Name = "Order2", Hex = "#FF2794CC" },
+                    new ColuorInfo { Name = "Order3", Hex = "#FFCC28CC" },
+                    new ColuorInfo { Name = "Order4", Hex = "#FF27CC95" },
+                    new ColuorInfo { Name = "RedDisabled", Hex = "#FFB25959" },
+                    new ColuorInfo { Name = "BlueHighlight", Hex = "#FF6666FF" },
+                },
+            };
 #else
             this.palette = new PaletteInfo();
 #endif
