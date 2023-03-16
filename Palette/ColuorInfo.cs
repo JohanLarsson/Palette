@@ -1,118 +1,117 @@
-﻿namespace Palette
+﻿namespace Palette;
+
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using System.Windows.Media;
+using System.Windows.Controls;
+
+[JsonConverter(typeof(JsonConverter))]
+public class ColuorInfo : INotifyPropertyChanged
 {
-    using System;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-    using System.Text.Json.Serialization;
-    using System.Text.Json;
-    using System.Windows.Media;
-    using System.Windows.Controls;
+    private string name;
+    private SolidColorBrush brush = Brushes.Transparent;
 
-    [JsonConverter(typeof(JsonConverter))]
-    public class ColuorInfo : INotifyPropertyChanged
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public string Name
     {
-        private string name;
-        private SolidColorBrush brush = Brushes.Transparent;
+        get => this.name;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public string Name
+        set
         {
-            get => this.name;
-
-            set
+            if (value == this.name)
             {
-                if (value == this.name)
-                {
-                    return;
-                }
-
-                this.name = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        public SolidColorBrush Brush
-        {
-            get => this.brush;
-
-            set
-            {
-                if (ReferenceEquals(value, this.brush))
-                {
-                    return;
-                }
-
-                this.brush = value;
-                this.OnPropertyChanged();
-                this.OnPropertyChanged(nameof(this.Hex));
-                this.OnPropertyChanged(nameof(this.R));
-                this.OnPropertyChanged(nameof(this.G));
-                this.OnPropertyChanged(nameof(this.B));
-                this.OnPropertyChanged(nameof(this.Hue));
-                this.OnPropertyChanged(nameof(this.Saturation));
-                this.OnPropertyChanged(nameof(this.Value));
-            }
-        }
-
-        public string Hex
-        {
-            get => this.Brush.Color.ToString();
-            set => this.Brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(value));
-        }
-
-        public byte R
-        {
-            get => this.Brush.Color.R;
-            set => this.Brush = new SolidColorBrush(Color.FromRgb(value, this.G, this.B));
-        }
-
-        public byte G
-        {
-            get => this.Brush.Color.G;
-            set => this.Brush = new SolidColorBrush(Color.FromRgb(this.R, value, this.B));
-        }
-
-        public byte B
-        {
-            get => this.Brush.Color.B;
-            set => this.Brush = new SolidColorBrush(Color.FromRgb(this.R, this.G, value));
-        }
-
-        public double Hue
-        {
-            get => Hsv.ColorToHSV(this.brush.Color).Hue;
-            set => this.Brush = new SolidColorBrush(Hsv.ColorFromHSV(value, this.Saturation, this.Value));
-        }
-
-        public double Saturation
-        {
-            get => Hsv.ColorToHSV(this.brush.Color).Saturation;
-            set => this.Brush = new SolidColorBrush(Hsv.ColorFromHSV(this.Hue, value, this.Value));
-        }
-
-        public double Value
-        {
-            get => Hsv.ColorToHSV(this.brush.Color).Value;
-            set => this.Brush = new SolidColorBrush(Hsv.ColorFromHSV(this.Hue, this.Saturation, value));
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private sealed class JsonConverter : JsonConverter<ColuorInfo>
-        {
-            public override ColuorInfo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-            {
-                var record = JsonSerializer.Deserialize<Record>(ref reader);
-                return new ColuorInfo{Name = record.Name, Hex = record.Colour };
+                return;
             }
 
-            public override void Write(Utf8JsonWriter writer, ColuorInfo value, JsonSerializerOptions options) => JsonSerializer.Serialize(writer, new Record(value.Name, value.Hex));
-
-            internal record struct Record(string Name, string Colour);
+            this.name = value;
+            this.OnPropertyChanged();
         }
+    }
+
+    public SolidColorBrush Brush
+    {
+        get => this.brush;
+
+        set
+        {
+            if (ReferenceEquals(value, this.brush))
+            {
+                return;
+            }
+
+            this.brush = value;
+            this.OnPropertyChanged();
+            this.OnPropertyChanged(nameof(this.Hex));
+            this.OnPropertyChanged(nameof(this.R));
+            this.OnPropertyChanged(nameof(this.G));
+            this.OnPropertyChanged(nameof(this.B));
+            this.OnPropertyChanged(nameof(this.Hue));
+            this.OnPropertyChanged(nameof(this.Saturation));
+            this.OnPropertyChanged(nameof(this.Value));
+        }
+    }
+
+    public string Hex
+    {
+        get => this.Brush.Color.ToString();
+        set => this.Brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(value));
+    }
+
+    public byte R
+    {
+        get => this.Brush.Color.R;
+        set => this.Brush = new SolidColorBrush(Color.FromRgb(value, this.G, this.B));
+    }
+
+    public byte G
+    {
+        get => this.Brush.Color.G;
+        set => this.Brush = new SolidColorBrush(Color.FromRgb(this.R, value, this.B));
+    }
+
+    public byte B
+    {
+        get => this.Brush.Color.B;
+        set => this.Brush = new SolidColorBrush(Color.FromRgb(this.R, this.G, value));
+    }
+
+    public double Hue
+    {
+        get => Hsv.ColorToHSV(this.brush.Color).Hue;
+        set => this.Brush = new SolidColorBrush(Hsv.ColorFromHSV(value, this.Saturation, this.Value));
+    }
+
+    public double Saturation
+    {
+        get => Hsv.ColorToHSV(this.brush.Color).Saturation;
+        set => this.Brush = new SolidColorBrush(Hsv.ColorFromHSV(this.Hue, value, this.Value));
+    }
+
+    public double Value
+    {
+        get => Hsv.ColorToHSV(this.brush.Color).Value;
+        set => this.Brush = new SolidColorBrush(Hsv.ColorFromHSV(this.Hue, this.Saturation, value));
+    }
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private sealed class JsonConverter : JsonConverter<ColuorInfo>
+    {
+        public override ColuorInfo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            var record = JsonSerializer.Deserialize<Record>(ref reader);
+            return new ColuorInfo{Name = record.Name, Hex = record.Colour };
+        }
+
+        public override void Write(Utf8JsonWriter writer, ColuorInfo value, JsonSerializerOptions options) => JsonSerializer.Serialize(writer, new Record(value.Name, value.Hex));
+
+        internal record struct Record(string Name, string Colour);
     }
 }

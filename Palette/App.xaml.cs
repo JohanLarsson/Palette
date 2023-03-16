@@ -1,8 +1,7 @@
-﻿namespace Palette
-{
-    using System.Windows;
+﻿namespace Palette;
 
-    public partial class App : Application
-    {
-    }
+using System.Windows;
+
+public partial class App : Application
+{
 }

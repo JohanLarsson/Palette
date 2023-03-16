@@ -1,28 +1,27 @@
 ﻿// ReSharper disable PossibleNullReferenceException
-namespace Palette
+namespace Palette;
+
+using System;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Markup;
+
+public class SaturationToRadiusConverter : MarkupExtension, IValueConverter
 {
-    using System;
-    using System.Globalization;
-    using System.Windows.Data;
-    using System.Windows.Markup;
+    public double Radius { get; set; }
 
-    public class SaturationToRadiusConverter : MarkupExtension, IValueConverter
+    public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        public double Radius { get; set; }
+        return this;
+    }
 
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return (double)value * this.Radius;
+    }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (double)value * this.Radius;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return (double)value / this.Radius;
-        }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return (double)value / this.Radius;
     }
 }

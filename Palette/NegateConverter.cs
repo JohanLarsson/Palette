@@ -1,22 +1,21 @@
 ﻿// ReSharper disable PossibleNullReferenceException
-namespace Palette
+namespace Palette;
+
+using System;
+using System.Globalization;
+using System.Windows.Data;
+
+public class NegateConverter : IValueConverter
 {
-    using System;
-    using System.Globalization;
-    using System.Windows.Data;
+    public static readonly NegateConverter Default = new NegateConverter();
 
-    public class NegateConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public static readonly NegateConverter Default = new NegateConverter();
+        return -1 * (double)value;
+    }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return -1 * (double)value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return -1 * (double)value;
-        }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return -1 * (double)value;
     }
 }
