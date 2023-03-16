@@ -3,10 +3,9 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows.Media;
-using System.Windows.Controls;
 
 [JsonConverter(typeof(JsonConverter))]
 public class ColuorInfo : INotifyPropertyChanged
