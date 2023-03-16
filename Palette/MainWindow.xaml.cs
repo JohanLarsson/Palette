@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Windows;
     using System.Windows.Input;
+    using Microsoft.Win32;
 
     public partial class MainWindow : Window
     {
@@ -42,9 +43,9 @@
         {
             if (this.file == null)
             {
-                var dialog = new Ookii.Dialogs.Wpf.VistaSaveFileDialog
+                var dialog = new SaveFileDialog()
                 {
-                    Filter = Filter
+                    Filter = Filter,
                 };
 
                 if (dialog.ShowDialog(this) != true)
@@ -61,9 +62,9 @@
 
         private void OnSaveAs(object sender, ExecutedRoutedEventArgs e)
         {
-            var dialog = new Ookii.Dialogs.Wpf.VistaSaveFileDialog
+            var dialog = new SaveFileDialog
             {
-                Filter = Filter
+                Filter = Filter,
             };
 
             if (dialog.ShowDialog(this) != true)
@@ -83,9 +84,9 @@
 
         private void OnOpen(object sender, ExecutedRoutedEventArgs e)
         {
-            var dialog = new Ookii.Dialogs.Wpf.VistaOpenFileDialog
+            var dialog = new OpenFileDialog
             {
-                Filter = Filter
+                Filter = Filter,
             };
 
             if (dialog.ShowDialog(this) == true)

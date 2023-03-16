@@ -9,14 +9,11 @@
 
     using Gu.Reactive;
 
-    using Palette.Properties;
-
     public sealed class ViewModel : INotifyPropertyChanged, IDisposable
     {
         // Lazy for designtime to work.
-        private readonly Lazy<Repository> repository = new Lazy<Repository>(() => new Repository());
-        private readonly StringBuilder xamlBuilder = new StringBuilder();
-        private readonly SerialDisposable disposable = new SerialDisposable();
+        private readonly StringBuilder xamlBuilder = new();
+        private readonly SerialDisposable disposable = new();
 
         private PaletteInfo palette;
         private ColuorInfo selectedColour;
@@ -95,34 +92,29 @@
             get
             {
                 this.xamlBuilder.Clear();
-                using (var writer = new StringWriter(this.xamlBuilder))
-                {
-                    this.WriteXaml(writer);
-                    return this.xamlBuilder.ToString();
-                }
+                using var writer = new StringWriter(this.xamlBuilder);
+                this.WriteXaml(writer);
+                return this.xamlBuilder.ToString();
             }
         }
 
         public bool CanSave(FileInfo file)
         {
             return file != null &&
-                   this.palette != null &&
-                   this.repository.Value.CanSave(this.palette, file);
+                   this.palette != null;
         }
 
         public void Save(FileInfo file)
         {
             if (string.Equals(file.Extension, ".xaml", StringComparison.OrdinalIgnoreCase))
             {
-                using (var writer = new StreamWriter(File.OpenWrite(file.FullName)))
-                {
-                    this.WriteXaml(writer);
-                }
+                using var writer = new StreamWriter(File.OpenWrite(file.FullName));
+                this.WriteXaml(writer);
 
                 return;
             }
 
-            this.repository.Value.Save(this.Palette, file);
+            Repository.Save(this.Palette, file);
         }
 
         private void WriteXaml(TextWriter writer)
@@ -146,7 +138,7 @@
 
         public void Read(FileInfo file)
         {
-            this.Palette = this.repository.Value.Read(file);
+            this.Palette = Repository.Read(file);
         }
 
         public void Dispose()

@@ -1,9 +1,14 @@
 ﻿namespace Palette
 {
+    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Text.Json.Serialization;
+    using System.Text.Json;
     using System.Windows.Media;
+    using System.Windows.Controls;
 
+    [JsonConverter(typeof(JsonConverter))]
     public class ColuorInfo : INotifyPropertyChanged
     {
         private string name;
@@ -95,6 +100,19 @@
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private sealed class JsonConverter : JsonConverter<ColuorInfo>
+        {
+            public override ColuorInfo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+            {
+                var record = JsonSerializer.Deserialize<Record>(ref reader);
+                return new ColuorInfo{Name = record.Name, Hex = record.Colour };
+            }
+
+            public override void Write(Utf8JsonWriter writer, ColuorInfo value, JsonSerializerOptions options) => JsonSerializer.Serialize(writer, new Record(value.Name, value.Hex));
+
+            internal record struct Record(string Name, string Colour);
         }
     }
 }
