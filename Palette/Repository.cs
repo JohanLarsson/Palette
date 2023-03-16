@@ -7,7 +7,7 @@ public static class Repository
 {
     public static PaletteInfo Read(FileInfo file)
     {
-        return JsonSerializer.Deserialize<PaletteInfo>(File.ReadAllText(file.FullName));
+        return JsonSerializer.Deserialize<PaletteInfo>(File.ReadAllText(file.FullName))!;
     }
 
     public static void Save(PaletteInfo palette, FileInfo file)
