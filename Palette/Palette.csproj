@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -32,7 +32,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gu.Analyzers" Version="2.0.2" PrivateAssets="all" />
+    <PackageReference Include="Gu.Analyzers" Version="2.0.3" PrivateAssets="all" />
     <PackageReference Include="Gu.Wpf.Geometry" Version="2.2.8" />
     <PackageReference Include="Gu.Wpf.Reactive" Version="5.0.1" />
     <PackageReference Include="IDisposableAnalyzers" Version="4.0.2" PrivateAssets="all" />
