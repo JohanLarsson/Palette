@@ -1,6 +1,6 @@
 # Palette
 
-![github actions](https://github.com/JohanLarsson/Palette/actions/workflows/ci.yml/badge.svg)
+[![ci](https://github.com/JohanLarsson/Palette/actions/workflows/ci.yml/badge.svg)](https://github.com/JohanLarsson/Palette/actions/workflows/ci.yml)
 
 Small tool for composing palettes.
 
