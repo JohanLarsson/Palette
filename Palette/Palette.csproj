@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <LangVersion>latest</LangVersion>
     <Nullable>Enable</Nullable>
@@ -10,7 +10,6 @@
     <EmbedAllSources>true</EmbedAllSources>
     <DebugType>embedded</DebugType>
     <!--<ApplicationIcon>icon.ico</ApplicationIcon>-->
-    <ApplicationManifest>App.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -21,7 +20,7 @@
 
   <PropertyGroup>
     <PublishSingleFile>true</PublishSingleFile>
-    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>false</SelfContained>
   </PropertyGroup>
 
