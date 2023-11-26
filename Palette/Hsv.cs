@@ -24,7 +24,7 @@ public record struct Hsv(double Hue, double Saturation, double Value)
 
     public static Color ColorFromHSV(double hue, double saturation, double value)
     {
-        var hi = (int)(Math.Floor(hue / 60)) % 6;
+        var hi = (int)Math.Floor(hue / 60) % 6;
         var f = (hue / 60) - Math.Floor(hue / 60);
 
         value *= 255;
